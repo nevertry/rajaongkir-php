@@ -11,7 +11,38 @@
 
 namespace hok00age;
 
-class RajaOngkir {
+use Illuminate\Support\ServiceProvider;
+
+class RajaOngkir extends ServiceProvider {
+
+    /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @var boolean
+     * @since 1.0.0
+     */
+    protected $defer = false;
+
+    /**
+     * Bootstrap the application events.
+     *
+     * @since 1.0.0
+     *
+     * @return void
+     */
+    public function boot()
+    {
+    }
+
+    /**
+     * Register bindings in the container.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        //
+    }
 
     private static $api_key;
     private static $base_url = "http://rajaongkir.com/api/";
