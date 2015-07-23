@@ -45,7 +45,7 @@ class RajaOngkir extends ServiceProvider {
     }
 
     private static $api_key;
-    private static $base_url = "http://rajaongkir.com/api/";
+    private static $base_url = "http://rajaongkir.com/api/basic/";
 
     /**
      * Constructor
@@ -116,7 +116,7 @@ class RajaOngkir extends ServiceProvider {
             'waybill' => $resi,
             'courier' => $courier
         );
-        
+
         return \Unirest::post(RajaOngkir::$base_url . "waybill", array(), http_build_query($params));
     }
 
