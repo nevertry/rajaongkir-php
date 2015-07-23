@@ -105,4 +105,19 @@ class RajaOngkir extends ServiceProvider {
         return \Unirest::post(RajaOngkir::$base_url . "cost", array(), http_build_query($params));
     }
 
+    /**
+     * Fungsi untuk melacak/mengetahui status pengiriman berdasarkan nomor resi
+     * @param string $waybill Nomor resi JNE
+     * @param string $courier Kode kurir: jne
+     * @return object Object yang berisi informasi response, terdiri dari: code, headers, body, raw_body.
+     */
+    function getWaybill($resi, $courier) {
+        $params = array(
+            'waybill' => $resi,
+            'courier' => $courier
+        );
+        
+        return \Unirest::post(RajaOngkir::$base_url . "waybill", array(), http_build_query($params));
+    }
+
 }
