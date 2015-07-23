@@ -111,7 +111,7 @@ class RajaOngkir extends ServiceProvider {
      * @param string $courier Kode kurir: jne
      * @return object Object yang berisi informasi response, terdiri dari: code, headers, body, raw_body.
      */
-    function getWaybill($resi, $courier) {
+    function getWaybill($courier, $resi) {
         $params = array(
             'waybill' => $resi,
             'courier' => $courier
