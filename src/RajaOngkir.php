@@ -11,6 +11,7 @@
 
 namespace hok00age;
 
+use Config;
 use Illuminate\Support\ServiceProvider;
 
 class RajaOngkir extends ServiceProvider {
@@ -32,6 +33,9 @@ class RajaOngkir extends ServiceProvider {
      */
     public function boot()
     {
+        $this->publishes([
+            __DIR__.'/config/rajaongkir.php' => config_path('rajaongkir.php'),
+        ]);
     }
 
     /**
@@ -41,11 +45,10 @@ class RajaOngkir extends ServiceProvider {
      */
     public function register()
     {
-        //
     }
 
     private static $api_key;
-    private static $base_url = "http://rajaongkir.com/api/basic/";
+    private $base_url = "http://rajaongkir.com/api/basic/";
 
     /**
      * Constructor
@@ -53,6 +56,7 @@ class RajaOngkir extends ServiceProvider {
      * @param array $additional_headers Header tambahan seperti android-key, ios-key, dll
      */
     public function __construct($api_key, $additional_headers = array()) {
+        $this->base_url = Config::get('rajaongkir.base_url', $this->base_url);
         RajaOngkir::$api_key = $api_key;
         \Unirest::defaultHeader("Content-Type", "application/x-www-form-urlencoded");
         \Unirest::defaultHeader("key", RajaOngkir::$api_key);
@@ -68,7 +72,7 @@ class RajaOngkir extends ServiceProvider {
      */
     function getProvince($province_id = NULL) {
         $params = (is_null($province_id)) ? NULL : array('id' => $province_id);
-        return \Unirest::get(RajaOngkir::$base_url . "province", array(), $params);
+        return \Unirest::get($this->base_url . "province", array(), $params);
     }
 
     /**
@@ -82,7 +86,7 @@ class RajaOngkir extends ServiceProvider {
         if (!is_null($city_id)) {
             $params['id'] = $city_id;
         }
-        return \Unirest::get(RajaOngkir::$base_url . "city", array(), $params);
+        return \Unirest::get($this->base_url . "city", array(), $params);
     }
 
     /**
@@ -102,7 +106,7 @@ class RajaOngkir extends ServiceProvider {
         if (!is_null($courier)) {
             $params['courier'] = $courier;
         }
-        return \Unirest::post(RajaOngkir::$base_url . "cost", array(), http_build_query($params));
+        return \Unirest::post($this->base_url . "cost", array(), http_build_query($params));
     }
 
     /**
@@ -117,7 +121,7 @@ class RajaOngkir extends ServiceProvider {
             'courier' => $courier
         );
 
-        return \Unirest::post(RajaOngkir::$base_url . "waybill", array(), http_build_query($params));
+        return \Unirest::post($this->base_url . "waybill", array(), http_build_query($params));
     }
 
 }
